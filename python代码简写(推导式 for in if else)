@@ -1,0 +1,33 @@
+#列表推导式
+l = [0,1,2,3,4,5,6,7,8,9]
+l2 = [x+1 for x in l ]
+l3 = [x for x in l if x%2==0]
+print(l,l2,l3)
+#结果
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9] [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] [0, 2, 4, 6, 8]
+
+l4 = [x if x%2==0 else 0 for x in l ]
+prinit(l4)
+#结果
+[0, 0, 2, 0, 4, 0, 6, 0, 8, 0]
+
+#列表推导式是将所有数据一次性保存到新列表中，如果列表数据过多，也会占用大量内存
+#只需将[]改为()列表推导式则会变成生成器推导式，避免一次性生成大量数据
+hua = ['♥','♣','♦','♠']
+
+num = ['A','2','3','4','5','6','7','8','9','10','J','Q','K']
+#列表嵌套循环，生成出一个列表
+
+pk = [h+n for h in hua for n in num]
+
+print(pk)
+#将列表改为generator
+
+pk = (h+n for h in hua for n in num)
+
+#print(next(pk))
+#print(next(pk))
+# print(list(pk))
+for p in pk:
+    #print(p)
+    print(list(pk))
