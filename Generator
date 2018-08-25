@@ -1,0 +1,14 @@
+#利用生成器写斐波那契数列
+# def Feibonacci(a,b,num):
+#     while True:
+#         c = a 
+#         yield a
+#         a = a+b
+#         b = c
+#         num+=1
+#         if num == 100:
+#               raise StopIteration
+#         pass
+# for num in Feibonacci(1,0,0):
+#     print(num)
+#     pass
