@@ -1,0 +1,32 @@
+json 模块
+json 是一种数据交换的格式
+json就是一个字符串，可以将一个json字符串转换为任意语言中的对象从而达到数据交换的目的
+
+json
+json对象 {}
+语法：{属性名：属性值，属性名：属性值}
+json数组[值，值，值]
+属性名是一个字符串，必须使用“”
+属性值（各个语言通用的）：字符串 数字 null（空值） 布尔值 对象（普通对象） 数组
+
+#创建一个json字符串
+json_str = '{"name":"Lliya","age":"16"}'
+#json.dumps()用来将对象转换成字符串
+#json.loads()用来将json字符串转换为python对象
+#如果是json对象，则转换为字典；如果是json数字，则转换为列表
+import json
+json_str = '{"name":"Lliya","age":"16"}'
+json_str2 = '[10,20,"hello",true,null]'
+o = json.loads(json_str)
+p = json.loads(json_str2)
+print(o['name'])
+print(p)
+
+m = dict(name ='shirou',age = 18)
+n = json.dumps(m)
+print(n)
+-------------
+结果：
+Lliya
+[10, 20, 'hello', True, None]
+{"name": "shirou", "age": 18}
