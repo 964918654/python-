@@ -1,0 +1,43 @@
+from multiprocessing import Process
+import time
+import os
+
+
+# 创建一个函数
+# 通过一个函数将代码传递到进程中，
+# 这样当进程执行时，实际上就是在执行函数中的代码
+def fn(num):
+    while True:
+        print(f'分进程 {num}', os.getpid())
+        time.sleep(1)
+
+# 实时模板
+# if __name__ == '__main__':
+#     pass
+# if __name__ == '__main__':
+#
+
+
+# 每一个进程都有一个唯一的标识，pid 在python中可以获取到当前进程的pid
+
+if __name__ == '__main__':
+    # 编写多进程的代码时，必须要写 if __name__...
+    # 如果代码直接写在了if里边，则代码就在主进程中执行
+    p1 = Process(target=fn, args=(1,))
+    p2 = Process(target=fn, args=(2,))
+    # Process() args 需要一个元组作为参数，表示传递到函数中的位置参数
+    # 通过 进程.run()就会执行进程中的代码
+    # p1.run()会阻塞程序的执行，编写多进程的程序时，不要使用run()
+    # p1.run()
+    # daemon 设置父进程是否等待子进程，如图为True，则不等，默认值是False
+    p1.daemon = True
+    p1.start()
+    # p2.start()
+
+    # 一般情况编写多进程的程序时，在主进程中一般不写业务逻辑
+    # 主进程只负责创建管理分进程
+    # 默认情况下，当主进程代码执行完毕时，程序不会立即结束，主进程会等待分进程执行完毕才结束
+    # print('主进程结束~~')
+    for i in range(10):
+        print('主进程')
+        time.sleep(1)
