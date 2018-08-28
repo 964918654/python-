@@ -1,0 +1,36 @@
+import hashlib
+
+# hashlib中保存的是一些加密的算法，通过这个模块可以对信息进行加密
+s = b'hello'
+# s = b'今天天气真不错'
+
+
+# hashlib加密时，不能直接对一个字符串进行加密
+r = hashlib.md5(s)
+
+# name=admin password=123123
+# 敏感信息在数据库中都必须要加密以后存储，不能明文保存
+
+# 5d41402abc4b2a76b9719d911017c592 hello 通过md5 算法加密以后获取到的值
+# print(r.hexdigest())
+
+username = 'admin'
+password = b'1'
+
+r = hashlib.md5(password)
+# print(r.hexdigest()) # 4297f44b13955235245b2497399d7a93
+# md5算法已经被破解
+# password == '4297f44b13955235245b2497399d7a93'
+
+r = hashlib.sha1(password)
+# print(r.hexdigest()) # 601f1889667efaebb33b8c12572835da3f027f78
+
+a = '今天天气真不错'
+# 需要将字符串，转换为二进制数据
+a2 = bytes(a,'utf-8')
+r = hashlib.sha1(a2)
+
+a2 = a.encode('utf-8')
+print(a2)
+
+# print(r.hexdigest()) # 11159b6a7e5cf5ed4886ee94206c1712bfc73979
