@@ -1,0 +1,46 @@
+#文件复制
+# def file_copy(file_name,new_file):
+#     with open (file_name,'rb') as file1:
+#         with open (new_file,'wb') as file2:
+#             #定义每次读取数据的大小
+#             chunk = 1024*1024*10
+#             #创建循环读取文件
+#             while True:
+#                 data = file1.read(chunk)
+#                 if not data:
+#                     break
+#                 file2.write(data)
+#                 pass
+#     pass
+# def single_process():
+#     file_name = '巧克力与香子兰OVA.mp4'
+#     new_file = '巧克力与香子兰OVA_copy.mp4'
+#     file_copy(file_name,new_file)
+
+#     file_name = 'ceshi.WAV'
+#     new_file = 'ceshi_copy.WAV'
+#     file_copy(file_name,new_file)
+
+# if __name__ == '__main__':
+#     p1 = Process(target = file_copy,args = ('巧克力与香子兰OVA.mp4','巧克力与香子兰OVA_copy.mp4'))
+#     p2 = Process(target = file_copy,args = ('ceshi.WAV','ceshi_copy.WAV'))
+
+#     time.clock()
+#     p1.start()
+#     p2.start()
+
+#     p1.join()
+#     p2.join()
+
+#     print(time.clock())
+
+json_str = '{"name":"Lliya","age":"16"}'
+json_str2 = '[10,20,"hello",true,null]'
+o = json.loads(json_str)
+p = json.loads(json_str2)
+print(o['name'])
+print(p)
+
+m = dict(name ='shirou',age = 18)
+n = json.dumps(m)
+print(n)
