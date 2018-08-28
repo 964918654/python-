@@ -1,0 +1,30 @@
+import time
+from multiprocessing import Process
+
+# 多进程
+# 默认情况下，一个程序只会分配一个进程
+#   如果我们的程序的功能较为复杂，我们可以通过多进程
+#   来提高程序的运行效率，也可以充分的运用到多核CPU
+# multiprocessing是python中的跨平台的多进程模块
+#   Process()类用于创建一个进程对象
+#       参数：
+#           target 函数，进程中要执行的代码
+#
+
+def fn():
+    while True:
+        print('1'.center(30,'-'))
+        # time.sleep(1)
+
+# 使用多进程时，一定要编写 if __name__ == '__main__':
+if __name__ == '__main__':
+    # 创建了一个进程
+    p1 = Process(target=fn)
+    # 执行进程
+    # 使用start()方法
+    p1.start()
+
+    while True:
+        print('main'.center(30,'-'))
+        # time.sleep(1)
+
