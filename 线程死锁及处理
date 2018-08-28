@@ -1,0 +1,55 @@
+from threading import Thread, Lock
+import time
+
+# 创建两个变量
+a = 0
+b = 0
+
+# 创建两个锁
+l1 = Lock()
+l2 = Lock()
+
+
+# 创建一个函数，对两个变量进行修改
+# 死锁
+#   两个线程同时引用相同的资源，第一个线程，等待第二个线程释放线程锁，
+#   第二个线程也等待第一个线程释放线程锁，这时就发生了线程的死锁
+#   一旦出现死锁，必须要有第三方介入才能解除
+# 可以通过在加锁时，指定一个过期时间来避免死锁
+
+def fn():
+    global a
+    global b
+    for i in range(100):
+        l1.acquire(timeout=2)
+        a += 1
+        time.sleep(1)
+        l2.acquire(timeout=2)
+        b += 1
+        l1.release()
+        l2.release()
+
+
+def fn2():
+    global a
+    global b
+    for i in range(100):
+        l2.acquire(timeout=2)
+        b += 1
+        l1.acquire(timeout=2)
+        a += 1
+        l2.release()
+        l1.release()
+
+
+if __name__ == '__main__':
+    t1 = Thread(target=fn)
+    t2 = Thread(target=fn2)
+
+    t1.start()
+    t2.start()
+
+    t1.join()
+    t2.join()
+
+    print('主线程-->', a, b)
