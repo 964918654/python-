@@ -1,0 +1,61 @@
+from threading import Thread,Lock
+import threading
+import time
+# import threading
+
+def fn(num):
+    while True:
+        print(f'线程{num}'.center(30,'-'))
+        time.sleep(1)
+
+a = 0
+
+# 多线程可以共享共享全局中的数据，全局中的数据在每一个线程中都可以访问和修改
+# 修改以后，也会影响到全局
+# 同一个进程中的所有的线程，都可以访问到相同的全局变量，
+#   这时，如果有多个线程同时修改一个变量，此时变量的值就有可能出现错误
+#   所以注意：在使用多线程时，要尽量避免操作全局变量
+
+# 如果必须要操作全局变量，则可以通过加锁方式，来禁止同时修改一个变量
+# threading.Lock() 用来创建一个线程锁
+# acquire(blocking=True, timeout=-1) 可以用来上锁
+#   如果加锁成功，则该方法会返回True
+#   如果对一个已经锁住的lock调用的话，它会阻塞程序，不会返回返回任何结果
+#   直到锁被打开，然后返回True
+
+# 反复的加锁解锁，会导致程序的运行的性能的下降
+
+lock1 = Lock()
+
+# r = lock1.acquire() # 把lock1锁上
+# lock1.release()
+#
+# lock1.acquire()
+# print(r)
+
+def fn4(num):
+    global a
+                               #如果把枷锁，开锁放在循环外面就会导致多线程没用，所以谨慎使用全局的数据
+    for i in range(1000000):
+        lock1.acquire()         #加锁
+        a += 1
+        lock1.release()        #打开锁
+    print(f'线程 {num}：',a)
+
+
+if __name__ == '__main__':
+
+    # 创建线程
+    # t1 = Thread(target=fn,args=(1,))
+    # t2 = Thread(target=fn,args=(2,))
+    t1 = Thread(target=fn4,args=(1,))
+    t2 = Thread(target=fn4,args=(2,))
+
+    t1.start()
+    t2.start()
+
+    t1.join()
+    t2.join()
+
+    print('主线程结束~~',a)
+
