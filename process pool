@@ -1,0 +1,67 @@
+from multiprocessing import Pool
+import time
+
+def fn(num):
+  for i in range(20):
+    print(f'进程{num}执行了~~{i}')
+    time.sleep(1)
+
+if __name__ == '__main__':
+    # 创建进程池
+    pool = Pool(3) # 创建一个含有三个进程的进程池，里面的参数可以随便写，默认无限
+    # 3 表示进程池中最大的进程的数量，也就是只会有三个进程同时运行
+    #   如果有多余代码需要执行，则需要进程对象空闲之后，才能执行剩下的
+
+    # 向进程池中添加函数
+            #apply()
+            # apply_async()
+
+    # apply() 向进程池中添加函数，同步添加,就是等前面的执行完了之后，这个才会执行
+    # 添加完成以后，进程会立即执行，执行完成后，才会向下继续执行
+    # pool.apply(fn,(1,))
+    # pool.apply(fn,(2,))
+    # pool.apply(fn,(3,))
+
+    # apply_async() 向进程池中添加函数，异步添加，就是一起执行
+    # pool.apply_async(fn,(1,))
+    # pool.apply_async(fn,(2,))
+    # pool.apply_async(fn,(3,))
+    for i in range(9):
+        pool.apply_async(fn, (i,))
+
+    # 关闭进程池，禁止在添加新的进程
+    pool.close()
+    # 将进程加入到执行的队列中，因为创建之后，只是有了这个进程，但是不会执行，只有等添加到队列的进程才会执行
+    pool.join()
+
+
+
+    print('主进程结束~~')
+--------------------------------------------------------------------------------------
+from multiprocessing import Pool, Queue, Manager
+import time
+
+
+def fn(q, num):
+    #q.append(num)
+    print(q)
+    for i in range(2):
+        print(f'进程 {num} 执行了~~ {i}')
+        # time.sleep(1)
+
+
+if __name__ == '__main__':
+    pool = Pool(3)
+    # 创建一个Manger对象
+    man = Manager()
+    q = man.Queue()
+    #q = man.list() # 创建一个可以在进程间共享数据的列表
+    # q = man.dict() # 创建一个可以在进程间共享数据的字典
+    # 在进程池中，不能直接使用 multiprocessing.Queue
+    # 我们需要一个专门的对象来获取队列
+    for i in range(3):
+        pool.apply_async(fn, (q, i))
+    pool.close()
+    pool.join()
+
+    print('主进程结束~~')
