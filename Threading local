@@ -1,0 +1,52 @@
+from threading import Thread,local
+from queue import Queue
+import time
+
+def fn(num):
+    for i in range(10):
+        print(num)
+        num += 1
+
+    # 执行线程，就当前是调用了一个函数
+
+def fn2(l):
+    for i in range(10):
+        l.append(i)
+        print(l)
+
+def fn3(q):
+    for i in range(10):
+        q.put(i)
+        print(q)
+
+# threading.local 它是一个专门用来在线程中共享数据的对象
+# 可以通过对象.属性的形式向其中添加数据
+# 在该对象中存储的数据，只能被当前线程访问
+# 如果数据是在主线程中存储的，只能在主线程中访问
+#   如果在线程A中存储，只能在线程A中访问
+# 通过local，可以为不同的线程存储不同的数据，
+#   这样这个数据只能在当前的线程中访问，其他的线程无法访问，可以确保线程的安全
+
+
+my_local = local()
+my_local.hello = '哈哈'
+my_local.abc = '你好'
+
+def fn4():
+    my_local.hello = '子线程的hello'
+    my_local.abc = '子线程的ABC'
+    while True:
+        print('子线程：',my_local.hello)
+        print('子线程：',my_local.abc)
+        time.sleep(1)
+
+
+
+if __name__ == '__main__':
+    a = 1
+    l = []
+    q = Queue()
+    t1 = Thread(target=fn4)
+    t1.start()
+
+    # fn4() # 在主线程中调用
