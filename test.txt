@@ -1,3 +1,9 @@
 18/8/29
 才注意到新建文档的文件格式问题，今天刚下了windows版的
 git应用
+git命令
+cd /G/python-
+git add 
+git commit -m ""
+git push origin master
+----------
